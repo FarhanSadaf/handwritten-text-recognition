@@ -67,7 +67,7 @@ def load_model(input_size, d_model, target_path):
 def draw_boxes(img, boxes):
     img = img.copy()
     for x1, y1, x2, y2 in boxes:
-        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 240), 1)
+        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 0), 1)
     return img
 
 

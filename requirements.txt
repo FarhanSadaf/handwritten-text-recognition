@@ -1,0 +1,11 @@
+h5py==2.10.0
+matplotlib==3.3.3
+numpy==1.18.5
+opencv-python==4.4.0.42
+pandas==1.0.5
+Pillow==7.2.0
+scikit-image==0.18.1
+streamlit==0.75.0
+tensorflow==2.3.0
+tqdm==4.48.2
+virtualenv==20.0.31

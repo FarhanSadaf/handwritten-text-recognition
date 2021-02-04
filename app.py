@@ -115,12 +115,12 @@ def main():
         col2.image(draw_boxes(crop, boxes), use_column_width=True)
 
         # Load model
-        if option == 'Bangla':
-            tokenizer = Tokenizer(charset=charset_ban, max_text_len=max_text_len)
-            model = load_model(input_size=input_size, d_model=tokenizer.vocab_size + 1, target_path=target_path_ban)
-        else:
+        if option == 'English':
             tokenizer = Tokenizer(charset=charset_eng, max_text_len=max_text_len)
             model = load_model(input_size=input_size, d_model=tokenizer.vocab_size + 1, target_path=target_path_eng)
+        elif option == 'Bangla':
+            tokenizer = Tokenizer(charset=charset_ban, max_text_len=max_text_len)
+            model = load_model(input_size=input_size, d_model=tokenizer.vocab_size + 1, target_path=target_path_ban)
 
         # Predict
         progress = st.progress(0)

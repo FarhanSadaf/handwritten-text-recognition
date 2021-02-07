@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from skimage.filters import threshold_local
 
 
 def preprocess(img, input_size):
@@ -83,8 +82,7 @@ def normalization(imgs):
 
 def threshold(img, block_size=25, offset=10):
     '''
-    Add black & white paper effect to img (H, W, C).
+    Local gaussian image thresholding.
     '''
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    T = threshold_local(img, block_size=block_size, offset=offset, method="gaussian")
-    return (img > T).astype("uint8") * 255
+    return cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, block_size, offset)

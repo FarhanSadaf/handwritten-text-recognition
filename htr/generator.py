@@ -11,7 +11,6 @@ class Tokenizer:
     '''
 
     def __init__(self, charset, max_text_len):
-        self.PAD_TK, self.UNK_TK = '¶', '¤'     # PAD token on index 0, so 0 on ouput is first removed as it is PAD
         self.chars = self.PAD_TK + self.UNK_TK + charset
 
         self.PAD = self.chars.find(self.PAD_TK)
@@ -61,8 +60,7 @@ class DataGenerator:
     Generator for ['train', 'val', 'test'] set.
     '''
 
-    def __init__(self, dataset_path, input_size, batch_size, max_text_len, charset, encoding='ascii'):
-        self.dataset = h5py.File(dataset_path, 'r')
+    def __init__(self, dataset_path, input_size, batch_size, max_text_len, charset, shuffle=True, encoding='ascii'):
         self.tokenizer = Tokenizer(charset, max_text_len)
         self.input_size = input_size
         self.batch_size = batch_size
@@ -70,6 +68,21 @@ class DataGenerator:
         self._size = {}
         self._steps = {}
         self.__index = {}
+        self.__shuffle = shuffle
+
+        if self.__shuffle:
+            self.dataset = dict()
+
+            with h5py.File(dataset_path, 'r') as hf:
+                for key in ['train', 'val', 'test']:
+                    self.dataset[key] = dict()
+                    self.dataset[key]['imgs'] = np.array(hf[key]['imgs'])
+                    self.dataset[key]['gt_texts'] = np.array(hf[key]['gt_texts'])
+
+            self.__arange = np.arange(len(self.dataset['train']['gt_texts']))
+            np.random.seed(42)
+        else:
+            self.dataset = h5py.File(dataset_path, 'r')
 
         for key in ['train', 'val', 'test']:
             self._size[key] = len(self.dataset[key]['gt_texts'])
@@ -84,6 +97,11 @@ class DataGenerator:
         while True:
             if self.__index['train'] >= self._size['train']:
                 self.__index['train'] = 0
+
+                if self.__shuffle:
+                    np.random.shuffle(self.__arange)
+                    self.dataset['train']['imgs'] = self.dataset['train']['imgs'][self.__arange]
+                    self.dataset['train']['gt_texts'] = self.dataset['train']['gt_texts'][self.__arange]
 
             start = self.__index['train']
             end = start + self.batch_size

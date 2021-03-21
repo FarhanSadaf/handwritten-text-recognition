@@ -11,6 +11,7 @@ class Tokenizer:
     '''
 
     def __init__(self, charset, max_text_len):
+        self.PAD_TK, self.UNK_TK = 'Â¶', 'Â¤'     # PAD token on index 0, so 0 on ouput is first removed as it is PAD
         self.chars = self.PAD_TK + self.UNK_TK + charset
 
         self.PAD = self.chars.find(self.PAD_TK)
@@ -30,7 +31,7 @@ class Tokenizer:
         text = unicodedata.normalize('NFKD', text).encode(encoding, 'ignore').decode(encoding)
         text = ' '.join(text.split())
 
-        # 'glittters' -> 'glit¤t¤ters'
+        # 'glittters' -> 'glitÂ¤tÂ¤ters'
         groups = [''.join(group) for _, group in groupby(text)]
         text = ''.join([self.UNK_TK.join(c) if len(c) > 1 else c for c in groups])
 

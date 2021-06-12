@@ -11,7 +11,7 @@ class Tokenizer:
     '''
 
     def __init__(self, charset, max_text_len):
-        self.PAD_TK, self.UNK_TK = 'Â¶', 'Â¤'     # PAD token on index 0, so 0 on ouput is first removed as it is PAD
+        self.PAD_TK, self.UNK_TK = '¶', '¤'     # PAD token on index 0, so 0 on ouput is first removed as it is PAD
         self.chars = self.PAD_TK + self.UNK_TK + charset
 
         self.PAD = self.chars.find(self.PAD_TK)

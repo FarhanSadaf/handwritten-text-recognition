@@ -81,10 +81,10 @@ def main():
     max_text_len = 128
 
     # Filepaths
-    output_path_eng = os.path.join(BASE_DIR, 'htr', 'data', 'output')
-    target_path_eng = os.path.join(output_path_eng, 'checkpoint_weights1.hdf5')
+    output_path_eng = os.path.join(BASE_DIR, 'htr', 'data', 'output-english')
+    target_path_eng = os.path.join(output_path_eng, 'checkpoint_weights_english1.hdf5')
     output_path_ban = os.path.join(BASE_DIR, 'htr', 'data', 'output-bangla')
-    target_path_ban = os.path.join(output_path_ban, 'checkpoint_weights_bangla1.hdf5')
+    target_path_ban = os.path.join(output_path_ban, 'checkpoint_weights_bangla.hdf5')
 
     st.write('''
         # Handwritten Text Recognition
